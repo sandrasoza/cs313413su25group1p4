@@ -1,0 +1,160 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="Z-8eHkDKwKZuXOZMd63Y">
+    <mxGraphModel dx="1981" dy="1922" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" plantUmlData="{&#xa;  &quot;data&quot;: &quot;@startuml Timer_State_Diagram\n&#39; UML Extended State Diagram for Timer System\n&#39; 4 States: Stopped, Setting, Running, Alarming\n\n&#39; Define states\nstate STOPPED {\n    STOPPED : entry / time = 0\n    STOPPED : Display: 00\n}\n\nstate SETTING {\n    SETTING : Button acts as increment\n    SETTING : Display: current time\n    SETTING : 3-second timeout active\n}\n\nstate RUNNING {\n    RUNNING : entry / beep(); start ticks\n    RUNNING : tick / time--\n    RUNNING : Button acts as cancel\n}\n\nstate ALARMING {\n    ALARMING : entry / start continuous beeping\n    ALARMING : Display: 00\n}\n\n&#39; Initial state\n[*] --&gt; STOPPED\n\n&#39; Transitions from STOPPED\nSTOPPED --&gt; SETTING : click [time &lt; 99] / time++\nSTOPPED --&gt; STOPPED : click [time == 99]\n\n&#39; Transitions from SETTING\nSETTING --&gt; SETTING : click [time &lt; 99] / time++; restart timeout\nSETTING --&gt; STOPPED : timeout(3s) [time == 0]\nSETTING --&gt; RUNNING : timeout(3s) [time &gt; 0] / beep(); start ticks\n\n&#39; Transitions from RUNNING\nRUNNING --&gt; RUNNING : tick [time &gt; 0] / time--\nRUNNING --&gt; ALARMING : tick [time == 0] / stop ticks\nRUNNING --&gt; STOPPED : click / time = 0; stop ticks\n\n&#39; Transitions from ALARMING\nALARMING --&gt; STOPPED : click / stop alarm; time = 0\n\nnote right of STOPPED\n    Initial state\n    Timer is inactive\n    Time remains at 0\nend note\n\nnote right of SETTING\n    User sets the time\n    Button increments up to 99\n    3s inactivity starts countdown\nend note\n\nnote right of RUNNING\n    Timer counting down\n    1-second ticks active\n    Button cancels countdown\nend note\n\nnote right of ALARMING\n    Continuous beeping\n    Button stops alarm\n    Returns to STOPPED\nend note\n\n@enduml\n&quot;,&#xa;  &quot;config&quot;: null&#xa;}" id="rTicNwp6T7DpHrGcynOU-37">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;strokeColor=none;" vertex="1">
+            <mxGeometry height="512" width="802" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="s_8" plantUmlBaseStyle="ellipse;fillColor=#222222;strokeColor=#222222;" plantUmlBaseValue="" id="rTicNwp6T7DpHrGcynOU-46">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="ellipse;fillColor=#222222;strokeColor=#222222;" vertex="1">
+            <mxGeometry height="20" width="20" x="-30" y="-150" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="t_9" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="" id="rTicNwp6T7DpHrGcynOU-47">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-46" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" target="rTicNwp6T7DpHrGcynOU-39">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="click [time &lt; 99] / time++" plantUmlId="t_10" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;exitX=0.82;exitY=1;exitDx=0;exitDy=0;entryX=0.82;entryY=0;entryDx=0;entryDy=0;" plantUmlBaseValue="click [time &lt; 99] / time++" id="rTicNwp6T7DpHrGcynOU-48">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-39" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;entryX=0;entryY=0.775;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" target="rTicNwp6T7DpHrGcynOU-41">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="170" y="-120" as="sourcePoint" />
+              <mxPoint x="590" y="-120" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="timeout(3s)" plantUmlId="t_13" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;exitX=0.18;exitY=0;exitDx=0;exitDy=0;entryX=0.18;entryY=1;entryDx=0;entryDy=0;" plantUmlBaseValue="timeout(3s)" id="rTicNwp6T7DpHrGcynOU-51">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-41" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;strokeWidth=2;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="rTicNwp6T7DpHrGcynOU-39">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="590" y="-160" as="sourcePoint" />
+              <mxPoint x="200" y="-150" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="timeout(3s) [time &gt; 0] / beep(); start ticks" plantUmlId="t_14" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="timeout(3s) [time &gt; 0] / beep(); start ticks" id="rTicNwp6T7DpHrGcynOU-52">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-41" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;strokeWidth=2;" target="rTicNwp6T7DpHrGcynOU-43">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="tick [time == 0] / stop ticks" plantUmlId="t_16" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="tick [time == 0] / stop ticks" id="rTicNwp6T7DpHrGcynOU-54">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-43" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;strokeWidth=2;" target="rTicNwp6T7DpHrGcynOU-45">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="click / time = 0; stop ticks" plantUmlId="t_17" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="click / time = 0; stop ticks" id="rTicNwp6T7DpHrGcynOU-55">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-43" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;strokeWidth=2;" target="rTicNwp6T7DpHrGcynOU-39">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="click / stop alarm; time = 0" plantUmlId="t_18" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="click / stop alarm; time = 0" id="rTicNwp6T7DpHrGcynOU-56">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-45" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;strokeWidth=2;" target="rTicNwp6T7DpHrGcynOU-39">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Initial state&#xa;Timer is inactive&#xa;Time remains at 0" plantUmlId="note_19" plantUmlBaseStyle="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" plantUmlBaseValue="Initial state&#xa;Timer is inactive&#xa;Time remains at 0" id="rTicNwp6T7DpHrGcynOU-57">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" vertex="1">
+            <mxGeometry height="63" width="123" x="320" y="-270" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="noteln_20" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" plantUmlBaseValue="" id="rTicNwp6T7DpHrGcynOU-58">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-57" style="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;rounded=0;" target="rTicNwp6T7DpHrGcynOU-39">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="User sets the time&#xa;Button increments up to 99&#xa;3s inactivity starts countdown" plantUmlId="note_21" plantUmlBaseStyle="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" plantUmlBaseValue="User sets the time&#xa;Button increments up to 99&#xa;3s inactivity starts countdown" id="rTicNwp6T7DpHrGcynOU-59">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" vertex="1">
+            <mxGeometry height="63" width="201" x="880" y="-270" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="noteln_22" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" plantUmlBaseValue="" id="rTicNwp6T7DpHrGcynOU-60">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-59" style="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;rounded=0;" target="rTicNwp6T7DpHrGcynOU-41">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Timer counting down&#xa;1-second ticks active&#xa;Button cancels countdown" plantUmlId="note_23" plantUmlBaseStyle="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" plantUmlBaseValue="Timer counting down&#xa;1-second ticks active&#xa;Button cancels countdown" id="rTicNwp6T7DpHrGcynOU-61">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" vertex="1">
+            <mxGeometry height="63" width="165" x="880" y="30" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="noteln_24" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" plantUmlBaseValue="" id="rTicNwp6T7DpHrGcynOU-62">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-61" style="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;rounded=0;" target="rTicNwp6T7DpHrGcynOU-43">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Continuous beeping&#xa;Button stops alarm&#xa;Returns to STOPPED" plantUmlId="note_25" plantUmlBaseStyle="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" plantUmlBaseValue="Continuous beeping&#xa;Button stops alarm&#xa;Returns to STOPPED" id="rTicNwp6T7DpHrGcynOU-63">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="shape=note;size=14;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;whiteSpace=wrap;align=left;" vertex="1">
+            <mxGeometry height="63" width="129" x="270" y="280" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="noteln_26" plantUmlBaseStyle="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" plantUmlBaseValue="" id="rTicNwp6T7DpHrGcynOU-64">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-63" style="endArrow=none;html=1;strokeColor=#181818;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;rounded=0;" target="rTicNwp6T7DpHrGcynOU-45">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="rTicNwp6T7DpHrGcynOU-69" edge="1" parent="rTicNwp6T7DpHrGcynOU-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="-120" as="sourcePoint" />
+            <mxPoint x="599.9767441860465" y="-120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="SETTING" plantUmlId="sc_3" plantUmlBaseStyle="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#F1F1F1;strokeColor=#181818;" plantUmlBaseValue="SETTING" id="rTicNwp6T7DpHrGcynOU-41">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.5,0,0,0],[0,0.75,0,0,0],[0,1,0,0,0],[0.25,0,0,0,0],[0.25,1,0,0,0],[0.5,0,0,0,0],[0.5,1,0,0,0],[0.75,0,0,0,0],[0.75,1,0,0,0],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,0.75,0,0,0],[1,1,0,0,0]];" vertex="1">
+            <mxGeometry height="120" width="160" x="600" y="-200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="click [time &lt; 99] / time++; restart timeout" plantUmlId="t_12" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="click [time &lt; 99] / time++; restart timeout" id="rTicNwp6T7DpHrGcynOU-50">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-41" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" target="rTicNwp6T7DpHrGcynOU-41">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="RUNNING" plantUmlId="sc_5" plantUmlBaseStyle="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#F1F1F1;strokeColor=#181818;" plantUmlBaseValue="RUNNING" id="rTicNwp6T7DpHrGcynOU-43">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#008a00;strokeColor=#005700;fontColor=#ffffff;" vertex="1">
+            <mxGeometry height="120" width="160" x="600" y="120" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="rTicNwp6T7DpHrGcynOU-72" parent="rTicNwp6T7DpHrGcynOU-43" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Countdown active" vertex="1">
+          <mxGeometry height="30" width="110" x="25" y="70" as="geometry" />
+        </mxCell>
+        <UserObject label="tick [time &gt; 0] / time--" plantUmlId="t_15" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="tick [time &gt; 0] / time--" id="rTicNwp6T7DpHrGcynOU-53">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-43" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" target="rTicNwp6T7DpHrGcynOU-43">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="ALARMING" plantUmlId="sc_7" plantUmlBaseStyle="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#F1F1F1;strokeColor=#181818;" plantUmlBaseValue="ALARMING" id="rTicNwp6T7DpHrGcynOU-45">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#fa6800;strokeColor=#C73500;fontColor=#000000;" vertex="1">
+            <mxGeometry height="120" width="160" x="40" y="120" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="rTicNwp6T7DpHrGcynOU-73" parent="rTicNwp6T7DpHrGcynOU-45" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Alarm sounding continiously&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="150" y="60" as="geometry" />
+        </mxCell>
+        <UserObject label="STOPPED" plantUmlId="sc_1" plantUmlBaseStyle="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#F1F1F1;strokeColor=#181818;" plantUmlBaseValue="STOPPED" id="rTicNwp6T7DpHrGcynOU-39">
+          <mxCell parent="rTicNwp6T7DpHrGcynOU-37" style="swimlane;collapsible=0;startSize=26;whiteSpace=wrap;align=center;html=1;fontSize=14;rounded=1;absoluteArcSize=1;arcSize=25;fillColor=#f5f5f5;strokeColor=#666666;gradientColor=#b3b3b3;" vertex="1">
+            <mxGeometry height="120" width="160" x="40" y="-200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="rTicNwp6T7DpHrGcynOU-71" parent="rTicNwp6T7DpHrGcynOU-39" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Entry / Time = 0" vertex="1">
+          <mxGeometry height="30" width="110" x="20" y="50" as="geometry" />
+        </mxCell>
+        <UserObject label="click" plantUmlId="t_11" plantUmlBaseStyle="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;" plantUmlBaseValue="click" id="rTicNwp6T7DpHrGcynOU-49">
+          <mxCell edge="1" parent="rTicNwp6T7DpHrGcynOU-37" source="rTicNwp6T7DpHrGcynOU-39" style="endArrow=block;endFill=1;strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;rounded=0;labelBackgroundColor=#FFFFFF;entryX=0.683;entryY=0.003;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="rTicNwp6T7DpHrGcynOU-39">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="120" y="-230" />
+                <mxPoint x="130" y="-230" />
+                <mxPoint x="150" y="-230" />
+                <mxPoint x="150" y="-220" />
+              </Array>
+              <mxPoint x="120" y="-210" as="sourcePoint" />
+              <mxPoint x="150" y="-220" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -3,36 +3,54 @@ package edu.luc.etl.cs313.android.simplestopwatch.model.time;
 import static edu.luc.etl.cs313.android.simplestopwatch.common.Constants.*;
 
 /**
- * An implementation of the stopwatch data model.
+ * An implementation of the timer data model.
+ * Time is bounded between 0 and 99.
  */
 public class DefaultTimeModel implements TimeModel {
 
-    private int runningTime = 0;
+    private int time = 0;
 
-    private int lapTime = -1;
+    private static final int MIN_TIME = 0;
+    private static final int MAX_TIME = 99;
 
     @Override
-    public void resetRuntime() {
-        runningTime = 0;
+    public void resetTime() {
+        time = MIN_TIME;
     }
 
     @Override
-    public void incRuntime() {
-        runningTime = (runningTime + SEC_PER_TICK) % SEC_PER_HOUR;
+    public void incTime() {
+        if (time < MAX_TIME) {
+            time++;
+        }
     }
 
     @Override
-    public int getRuntime() {
-        return runningTime;
+    public void decTime() {
+        if (time > MIN_TIME) {
+            time--;
+        }
     }
 
     @Override
-    public void setLaptime() {
-        lapTime = runningTime;
+    public int getTime() {
+        return time;
     }
 
     @Override
-    public int getLaptime() {
-        return lapTime;
+    public void setTime(int newTime) {
+        if (newTime >= MIN_TIME && newTime <= MAX_TIME) {
+            time = newTime;
+        }
+    }
+
+    @Override
+    public boolean isZero() {
+        return time == MIN_TIME;
+    }
+
+    @Override
+    public boolean isMax() {
+        return time == MAX_TIME;
     }
 }

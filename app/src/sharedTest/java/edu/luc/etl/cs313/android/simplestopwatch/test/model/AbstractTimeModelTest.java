@@ -1,10 +1,8 @@
 package edu.luc.etl.cs313.android.simplestopwatch.test.model;
 
-import static edu.luc.etl.cs313.android.simplestopwatch.common.Constants.SEC_PER_HOUR;
-import static edu.luc.etl.cs313.android.simplestopwatch.common.Constants.SEC_PER_MIN;
-import static edu.luc.etl.cs313.android.simplestopwatch.common.Constants.SEC_PER_TICK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
@@ -15,8 +13,8 @@ import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeModel;
  * This is a simple unit test of an object without dependencies.
  *
  * @author laufer
- * @see http://xunitpatterns.com/Testcase%20Superclass.html
  */
+ //@see http://xunitpatterns.com/Testcase%20Superclass.html
 public abstract class AbstractTimeModelTest {
 
     private TimeModel model;
@@ -32,58 +30,117 @@ public abstract class AbstractTimeModelTest {
     }
 
     /**
-     * Verifies that runtime and laptime are initially 0 or less.
+     * Verifies that time is initially 0.
      */
     @Test
     public void testPreconditions() {
-        assertEquals(0, model.getRuntime());
-        assertTrue(model.getLaptime() <= 0);
+        assertEquals(0, model.getTime());
     }
 
     /**
-     * Verifies that runtime is incremented correctly.
+     * Verifies that time is incremented correctly.
      */
     @Test
-    public void testIncrementRuntimeOne() {
-        final var rt = model.getRuntime();
-        final var lt = model.getLaptime();
-        model.incRuntime();
-        assertEquals((rt + SEC_PER_TICK) % SEC_PER_MIN, model.getRuntime());
-        assertEquals(lt, model.getLaptime());
+    public void testIncTimeOne() {
+        final var time = model.getTime();
+        model.incTime();
+        assertEquals(time + 1, model.getTime());
     }
 
     /**
-     * Verifies that runtime turns over correctly.
+     * Verifies that time respects upper bound.
      */
     @Test
-    public void testIncrementRuntimeMany() {
-        final int rt = model.getRuntime();
-        final int lt = model.getLaptime();
-        for (int i = 0; i < SEC_PER_HOUR; i ++) {
-            model.incRuntime();
-        }
-        assertEquals(rt, model.getRuntime());
-        assertEquals(lt, model.getLaptime());
+    public void testIncTimeAtMax() {
+        model.setTime(99);
+        model.incTime();
+        assertEquals(99, model.getTime());
     }
 
     /**
-     * Verifies that laptime works correctly.
+     * Verifies that time is decremented correctly.
      */
     @Test
-    public void testLaptime() {
-        final var rt = model.getRuntime();
-        final var lt = model.getLaptime();
-        for (var i = 0; i < 5; i ++) {
-            model.incRuntime();
-        }
-        assertEquals(rt + 5, model.getRuntime());
-        assertEquals(lt, model.getLaptime());
-        model.setLaptime();
-        assertEquals(rt + 5, model.getLaptime());
-        for (var i = 0; i < 5; i ++) {
-            model.incRuntime();
-        }
-        assertEquals(rt + 10, model.getRuntime());
-        assertEquals(rt + 5, model.getLaptime());
+    public void testDecTimeOne() {
+        model.setTime(5);
+        model.decTime();
+        assertEquals(4, model.getTime());
+    }
+
+    /**
+     * Verifies that time respects lower bound.
+     */
+    @Test
+    public void testDecTimeAtMin() {
+        model.setTime(0);
+        model.decTime();
+        assertEquals(0, model.getTime());
+    }
+
+    /**
+     * Verifies that time can be set within bounds.
+     */
+    @Test
+    public void testSetTimeValid() {
+        model.setTime(50);
+        assertEquals(50, model.getTime());
+    }
+
+    /**
+     * Verifies that time is bounded on set.
+     */
+    @Test
+    public void testSetTimeOutOfBounds() {
+        model.setTime(100);
+        assertEquals(0, model.getTime());
+        model.setTime(-1);
+        assertEquals(0, model.getTime());
+    }
+
+    /**
+     * Verifies that reset() sets time back to 0.
+     */
+    @Test
+    public void testResetTime() {
+        model.setTime(50);
+        model.resetTime();
+        assertEquals(0, model.getTime());
+    }
+
+    /**
+     * Verifies that isZero() returns true when time is 0.
+     */
+    @Test
+    public void testIsZeroTrue() {
+        model.setTime(0);
+        assertTrue(model.isZero());
+    }
+
+    /**
+     * Verifies that isZero() returns false when time is not 0.
+     */
+    @Test
+    public void testIsZeroFalse() {
+        model.setTime(50);
+        assertFalse(model.isZero());
+    }
+
+    /**
+     * Verifies that isMax() returns true when time is 99.
+     */
+    @Test
+    public void testIsMaxTrue() {
+        model.setTime(99);
+        assertTrue(model.isMax());
+    }
+
+    /**
+     * Verifies that isMax() returns false when time is not 99.
+     */
+    @Test
+    public void testIsMaxFalse() {
+        model.setTime(50);
+        assertFalse(model.isMax());
     }
 }
+

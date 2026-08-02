@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 import edu.luc.etl.cs313.android.simplestopwatch.model.clock.ClockModel;
+import edu.luc.etl.cs313.android.simplestopwatch.model.time.DefaultTimeModel;
+import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeModel;
 
 
 /**
@@ -62,5 +64,34 @@ public abstract class AbstractClockModelTest {
         Thread.sleep(5500);
         model.stop();
         assertEquals(5, i.get());
+    }
+
+    /**
+     * Verifies that onTick() increments TimeModel when clock is started.
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    public void testTickIncrementsTimeModel() throws InterruptedException {
+        final var timeModel = new DefaultTimeModel();
+        model.setTickListener(timeModel::incTime);
+        assertEquals(0, timeModel.getTime());
+        model.start();
+        Thread.sleep(2500);
+        model.stop();
+        assertEquals(2, timeModel.getTime());
+    }
+
+    /**
+     * Verifies that onTick() does nothing when clock is stopped.
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    public void testNoTickWhenStopped() throws InterruptedException {
+        final var timeModel = new DefaultTimeModel();
+        model.setTickListener(timeModel::incTime);
+        Thread.sleep(2500);
+        assertEquals(0, timeModel.getTime());
     }
 }

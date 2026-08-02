@@ -7,5 +7,5 @@ package edu.luc.etl.cs313.android.simplestopwatch.model.clock;
  * @author laufer
  */
 public interface TickSource {
-    void setTickListener(TickListener listener);
+    void setTickListener(TickListener listener); // Registers every 1 second laps
 }

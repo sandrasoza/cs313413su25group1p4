@@ -18,8 +18,8 @@ class RunningState implements StopwatchState {
 
     @Override
     public void onLapReset() {
-        sm.actionLap();
-        sm.toLapRunningState();
+        sm.actionStop();
+        sm.toStoppedState();
     }
 
     @Override
