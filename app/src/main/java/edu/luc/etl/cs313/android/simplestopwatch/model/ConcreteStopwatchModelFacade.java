@@ -3,10 +3,12 @@ package edu.luc.etl.cs313.android.simplestopwatch.model;
 import edu.luc.etl.cs313.android.simplestopwatch.common.StopwatchModelListener;
 import edu.luc.etl.cs313.android.simplestopwatch.model.clock.ClockModel;
 import edu.luc.etl.cs313.android.simplestopwatch.model.clock.DefaultClockModel;
-import edu.luc.etl.cs313.android.simplestopwatch.model.state.DefaultStopwatchStateMachine;
+import edu.luc.etl.cs313.android.simplestopwatch.model.state.DefaultTimerStateMachine;
 import edu.luc.etl.cs313.android.simplestopwatch.model.state.StopwatchStateMachine;
 import edu.luc.etl.cs313.android.simplestopwatch.model.time.DefaultTimeModel;
 import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeModel;
+import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeoutHandler;
+import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeoutModel;
 
 /**
  * An implementation of the model facade.
@@ -21,10 +23,13 @@ public class ConcreteStopwatchModelFacade implements StopwatchModelFacade {
 
     private final TimeModel timeModel;
 
+    private final TimeoutModel timeoutModel;
+
     public ConcreteStopwatchModelFacade() {
         timeModel = new DefaultTimeModel();
         clockModel = new DefaultClockModel();
-        stateMachine = new DefaultStopwatchStateMachine(timeModel, clockModel);
+        timeoutModel = new TimeoutHandler();
+        stateMachine = new DefaultTimerStateMachine(timeModel, clockModel, timeoutModel);
         clockModel.setTickListener(stateMachine);
     }
 
