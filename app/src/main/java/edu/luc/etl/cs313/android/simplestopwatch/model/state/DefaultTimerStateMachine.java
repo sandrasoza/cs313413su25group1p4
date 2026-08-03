@@ -11,7 +11,7 @@ import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeoutModel;
  * SettingState to detect 3 seconds of inactivity.
  * @author laufer
  */
-public class DefaultTimerStateMachine implements StopwatchStateMachine {
+public class DefaultTimerStateMachine implements TimerStateMachine {
 
     public DefaultTimerStateMachine(final TimeModel timeModel, final ClockModel clockModel,
                                     final TimeoutModel timeoutModel) {
@@ -30,9 +30,9 @@ public class DefaultTimerStateMachine implements StopwatchStateMachine {
     /**
      * The internal state of this adapter component. Required for the State pattern.
      */
-    private StopwatchState state;
+    private TimerState state;
 
-    protected void setState(final StopwatchState state) {
+    protected void setState(final TimerState state) {
         this.state = state;
         listener.onStateUpdate(state.getId());
     }
@@ -55,10 +55,10 @@ public class DefaultTimerStateMachine implements StopwatchStateMachine {
     @Override public void updateUIRuntime() { listener.onTimeUpdate(timeModel.getTime()); }
 
     // known states
-    private final StopwatchState STOPPED  = new StoppedState(this);
-    private final StopwatchState SETTING  = new SettingState(this);
-    private final StopwatchState RUNNING  = new RunningState(this);
-    private final StopwatchState ALARMING = new AlarmingState(this);
+    private final TimerState STOPPED  = new StoppedState(this);
+    private final TimerState SETTING  = new SettingState(this);
+    private final TimerState RUNNING  = new RunningState(this);
+    private final TimerState ALARMING = new AlarmingState(this);
 
     // transitions
     @Override public void toStoppedState()  { setState(STOPPED); }

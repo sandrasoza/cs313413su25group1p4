@@ -7,7 +7,7 @@ import edu.luc.etl.cs313.android.simplestopwatch.R;
  * (limited at 99) and restarts the 3-second inactivity timeout. If 3
  * seconds pass without a click, the timer beeps once and starts running.
  */
-class SettingState implements StopwatchState {
+class SettingState implements TimerState {
 
     public SettingState(final StopwatchSMStateView sm) {
         this.sm = sm;

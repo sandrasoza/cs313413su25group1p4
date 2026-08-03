@@ -12,32 +12,35 @@ import edu.luc.etl.cs313.android.simplestopwatch.R;
 import edu.luc.etl.cs313.android.simplestopwatch.common.StopwatchModelListener;
 import edu.luc.etl.cs313.android.simplestopwatch.model.clock.ClockModel;
 import edu.luc.etl.cs313.android.simplestopwatch.model.clock.TickListener;
-import edu.luc.etl.cs313.android.simplestopwatch.model.state.StopwatchStateMachine;
+import edu.luc.etl.cs313.android.simplestopwatch.model.state.TimerStateMachine;
 import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeModel;
+import edu.luc.etl.cs313.android.simplestopwatch.model.time.TimeoutModel;
 
 /**
- * Testcase superclass for the stopwatch state machine model. Unit-tests the state
- * machine in fast-forward mode by directly triggering successive tick events
- * without the presence of a pseudo-real-time clock. Uses a single unified mock
- * object for all dependencies of the state machine model.
+ * Testcase superclass for the timer state machine model. Uses two mock objects for
+ * the model's dependencies.
  *
  * @author laufer
- */
-//@see/http://xunitpatterns.com/Testcase%20Superclass.html
-public abstract class AbstractStopwatchStateMachineTest {
+ * */
+ //@see/http://xunitpatterns.com/Testcase%20Superclass.html
+public abstract class AbstractTimerStateMachineTest {
 
-    private StopwatchStateMachine model;
+    private TimerStateMachine model;
 
     private UnifiedMockDependency dependency;
+
+    private FakeTimeoutModel timeoutDependency;
 
     @Before
     public void setUp() throws Exception {
         dependency = new UnifiedMockDependency();
+        timeoutDependency = new FakeTimeoutModel();
     }
 
     @After
     public void tearDown() {
         dependency = null;
+        timeoutDependency = null;
     }
 
     /**
@@ -46,7 +49,7 @@ public abstract class AbstractStopwatchStateMachineTest {
      *
      * @param model
      */
-    protected void setModel(final StopwatchStateMachine model) {
+    protected void setModel(final TimerStateMachine model) {
         this.model = model;
         if (model == null)
             return;
@@ -56,6 +59,10 @@ public abstract class AbstractStopwatchStateMachineTest {
 
     protected UnifiedMockDependency getDependency() {
         return dependency;
+    }
+
+    protected FakeTimeoutModel getTimeoutDependency() {
+        return timeoutDependency;
     }
 
     /**
@@ -68,43 +75,82 @@ public abstract class AbstractStopwatchStateMachineTest {
     }
 
     /**
-     * Verifies the following scenario: time is 0, press start, wait 5+ seconds,
-     * expect time 5.
+     * Verifies that repeated clicks while setting accumulate the time and stay
+     * in SettingState, and that the inactivity timeout is running.
+     */
+    @Test
+    public void testScenarioSetting() {
+        model.onStartStop();
+        assertEquals(R.string.SETTING, dependency.getState());
+        assertTrue(timeoutDependency.isRunning());
+        model.onStartStop();
+        model.onStartStop();
+        assertTimeEquals(3);
+        assertEquals(R.string.SETTING, dependency.getState());
+    }
+
+    /**
+     * Verifies that the inactivity timeout moves from SettingState to
+     * RunningState and starts the clock.
+     */
+    @Test
+    public void testScenarioSettingTimesOutToRunning() {
+        model.onStartStop();
+        model.onTimeout();
+        assertEquals(R.string.RUNNING, dependency.getState());
+        assertTrue(dependency.isStarted());
+    }
+
+    /**
+     * Verifies the following scenario: set time to 5, run it down, expect
+     * time 0 and AlarmingState.
      */
     @Test
     public void testScenarioRun() {
         assertTimeEquals(0);
         assertFalse(dependency.isStarted());
-        // directly invoke the button press event handler methods
+        model.onStartStop(); //SETTING with time = 1
         model.onStartStop();
+        model.onStartStop();
+        model.onStartStop();
+        model.onStartStop(); // time = 5
+        model.onTimeout();   // RUNNING
         assertTrue(dependency.isStarted());
         onTickRepeat(5);
-        assertTimeEquals(5);
+        assertTimeEquals(0);
+        assertEquals(R.string.ALARMING, dependency.getState());
     }
 
     /**
-     * Verifies the following scenario: time is 0, press start, wait 5+ seconds,
-     * expect time 5, press stop, expect time 5, press reset, expect time 0.
-     *
-     * @throws Throwable
+     * Verifies the following scenario: set time, start running, cancel
+     * partway through, expect time 0 and StoppedState.
      */
     @Test
     public void testScenarioRunReset() {
-        assertTimeEquals(0);
-        assertFalse(dependency.isStarted());
-        // directly invoke the button press event handler methods
-        model.onStartStop();
-        assertEquals(R.string.RUNNING, dependency.getState());
+        model.onStartStop(); //SETTING, with time = 1
+        model.onStartStop(); // time = 2
+        model.onTimeout();   //RUNNING
         assertTrue(dependency.isStarted());
-        onTickRepeat(5);
-        assertTimeEquals(5);
-        model.onStartStop();
+        model.onTick();
+        assertTimeEquals(1);
+        model.onStartStop(); // cancelled
         assertEquals(R.string.STOPPED, dependency.getState());
         assertFalse(dependency.isStarted());
-        assertTimeEquals(5);
-        model.onLapReset();
+        assertTimeEquals(0);
+    }
+
+    /**
+     * Verifies that a click while alarming silences the alarm and returns to
+     * StoppedState.
+     */
+    @Test
+    public void testScenarioAlarmingToStopped() {
+        model.onStartStop(); //SETTING, time = 1
+        model.onTimeout();   // RUNNING
+        model.onTick();      // time = 0, ALARMING
+        assertEquals(R.string.ALARMING, dependency.getState());
+        model.onStartStop(); // silenced
         assertEquals(R.string.STOPPED, dependency.getState());
-        assertFalse(dependency.isStarted());
         assertTimeEquals(0);
     }
 
@@ -128,9 +174,8 @@ public abstract class AbstractStopwatchStateMachineTest {
 }
 
 /**
- * Manually implemented mock object that unifies the three dependencies of the
- * stopwatch state machine model. The three dependencies correspond to the three
- * interfaces this mock object implements.
+ * Manually implemented mock object that unifies the TimeModel, ClockModel, and
+ * StopwatchModelListener dependencies of the timer state machine model.
  *
  * @author laufer
  */
@@ -182,7 +227,9 @@ class UnifiedMockDependency implements TimeModel, ClockModel, StopwatchModelList
 
     @Override
     public void incTime() {
-        runningTime++;
+        if (runningTime < 99) {
+            runningTime++;
+        }
     }
 
     @Override
@@ -212,5 +259,44 @@ class UnifiedMockDependency implements TimeModel, ClockModel, StopwatchModelList
     @Override
     public boolean isMax() {
         return runningTime == 99;
+    }
+}
+
+/**
+ * Manually implemented mock object for the TimeoutModel dependency of the
+ * timer state machine model.
+ *
+ * @author laufer
+ */
+class FakeTimeoutModel implements TimeoutModel {
+
+    private boolean running = false;
+
+    private Runnable onTimeout;
+
+    @Override
+    public void setOnTimeout(final Runnable onTimeout) {
+        this.onTimeout = onTimeout;
+    }
+
+    @Override
+    public void start() {
+        running = true;
+    }
+
+    @Override
+    public void stop() {
+        running = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
+    }
+
+    void fireTimeout() {
+        if (onTimeout != null) {
+            onTimeout.run();
+        }
     }
 }

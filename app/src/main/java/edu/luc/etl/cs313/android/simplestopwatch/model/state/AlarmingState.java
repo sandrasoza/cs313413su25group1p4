@@ -7,7 +7,7 @@ import edu.luc.etl.cs313.android.simplestopwatch.R;
  * non-stop. User will need to click in order to silence the alarm and return to StoppedState,
  * which is already zero.
  */
-class AlarmingState implements StopwatchState {
+class AlarmingState implements TimerState {
 
     public AlarmingState(final StopwatchSMStateView sm) {
         this.sm = sm;
