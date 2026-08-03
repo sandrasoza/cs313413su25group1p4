@@ -14,6 +14,8 @@
 
     <!-- model state display names -->
     <string name="STOPPED">Stopped</string>
+    <string name="SETTING">setting</string>
+    <string name="ALARMING">alarming</string>
     <string name="RUNNING">Running</string>
     <string name="LAP_RUNNING">Lap/Running</string>
     <string name="LAP_STOPPED">Lap/Stopped</string>
