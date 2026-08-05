@@ -11,8 +11,8 @@ import java.util.Locale;
 import edu.luc.etl.cs313.android.simplestopwatch.R;
 import edu.luc.etl.cs313.android.simplestopwatch.common.Constants;
 import edu.luc.etl.cs313.android.simplestopwatch.common.StopwatchModelListener;
-import edu.luc.etl.cs313.android.simplestopwatch.model.ConcreteStopwatchModelFacade;
-import edu.luc.etl.cs313.android.simplestopwatch.model.StopwatchModelFacade;
+import edu.luc.etl.cs313.android.simplestopwatch.model.ConcreteTimerModelFacade;
+import edu.luc.etl.cs313.android.simplestopwatch.model.TimerModelFacade;
 
 /**
  * A thin adapter component for the stopwatch.
@@ -26,9 +26,9 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
     /**
      * The state-based dynamic model.
      */
-    private StopwatchModelFacade model;
+    private TimerModelFacade model;
 
-    protected void setModel(final StopwatchModelFacade model) {
+    protected void setModel(final TimerModelFacade model) {
         this.model = model;
     }
 
@@ -38,7 +38,7 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
         // inject dependency on view so this adapter receives UI events
         setContentView(R.layout.activity_main);
         // inject dependency on model into this so model receives UI events
-        this.setModel(new ConcreteStopwatchModelFacade());
+        this.setModel(new ConcreteTimerModelFacade(this));
         // inject dependency on this into model to register for UI updates
         model.setModelListener(this);
     }

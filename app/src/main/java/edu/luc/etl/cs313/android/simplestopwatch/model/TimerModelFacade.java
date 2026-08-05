@@ -10,4 +10,14 @@ import edu.luc.etl.cs313.android.simplestopwatch.common.StopwatchUIListener;
  *
  * @author laufer
  */
-public interface StopwatchModelFacade extends Startable, StopwatchUIListener, StopwatchModelSource { }
+public interface TimerModelFacade extends Startable, StopwatchUIListener, StopwatchModelSource {
+    /**
+     * Starts tick engine on startup.
+     */
+    void startTicks();
+
+    /**
+     * Stops tick engine on teardown.
+     */
+    void stopTicks();
+}
