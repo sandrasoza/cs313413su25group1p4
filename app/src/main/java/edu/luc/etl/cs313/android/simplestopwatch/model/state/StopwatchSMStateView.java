@@ -30,17 +30,17 @@ interface StopwatchSMStateView {
     void actionStop();
     void actionStartTimeout(); // (re)starts the 3-second inactivity timeout
     void actionStopTimeout();  // cancels the 3-second inactivity timeout
-    void actionAlarmOn();      // TODO sound/vibration mechanism
-    void actionAlarmOff();     // TODO sound/vibration mechanism
+    void actionAlarmOn();
+    void actionAlarmOff();
     void actionUpdateView();
 
-    /**
-     * Returns true if the remaining countdown time is zero.
-     *
-     * @return true when the timer has reached zero
-     */
+    //Returns true if the remaining countdown time is zero.
     boolean isTimeZero();
+
+    // Returns true if the countdown time is at maximum (99)
+    boolean isTimeMax();
 
     // state-dependent UI updates
     void updateUIRuntime();
 }
+

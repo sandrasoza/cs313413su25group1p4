@@ -19,8 +19,16 @@ class SettingState implements TimerState {
     public void onStartStop() {
         sm.actionStopTimeout();
         sm.actionInc();
-        sm.actionStartTimeout();
-        sm.toSettingState();
+        
+        // If time reached max, immediately start running
+        if (sm.isTimeMax()) {
+            sm.actionStart();
+            sm.toRunningState();
+        } else {
+            // Otherwise, restart timeout and stay in Setting
+            sm.actionStartTimeout();
+            sm.toSettingState();
+        }
     }
 
     @Override

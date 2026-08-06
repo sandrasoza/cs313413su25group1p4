@@ -9,7 +9,6 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import edu.luc.etl.cs313.android.simplestopwatch.R;
-import edu.luc.etl.cs313.android.simplestopwatch.common.Constants;
 import edu.luc.etl.cs313.android.simplestopwatch.common.StopwatchModelListener;
 import edu.luc.etl.cs313.android.simplestopwatch.model.ConcreteTimerModelFacade;
 import edu.luc.etl.cs313.android.simplestopwatch.model.TimerModelFacade;
@@ -55,20 +54,14 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
         model.start();
     }
 
-    // TODO remaining lifecycle methods
-
-    /**
-     * Updates the seconds and minutes in the UI.
-     * @param time
-     */
+    // Update the countdown timer
     public void onTimeUpdate(final int time) {
         // UI adapter responsibility to schedule incoming events on UI thread
         runOnUiThread(() -> {
-            final TextView tvS = findViewById(R.id.seconds);
-            final TextView tvM = findViewById(R.id.minutes);
+            final TextView tvTimer = findViewById(R.id.timer);
             final var locale = Locale.getDefault();
-            tvS.setText(String.format(locale,"%02d", time % Constants.SEC_PER_MIN));
-            tvM.setText(String.format(locale,"%02d", time / Constants.SEC_PER_MIN));
+            // Display the single value (0-99) directly
+            tvTimer.setText(String.format(locale, "%02d", time));
         });
     }
 
@@ -89,7 +82,4 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
         model.onStartStop();
     }
 
-    public void onLapReset(final View view)  {
-        model.onLapReset();
-    }
 }

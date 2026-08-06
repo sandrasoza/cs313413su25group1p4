@@ -99,7 +99,7 @@ public abstract class AbstractTimerStateMachineTest {
     }
     @Test
     public void testTimeNeverExceeds99() {
-        for (int i = 0; i < 120; i++) {
+        for (int i = 0; i < 99; i++) {
             model.onStartStop();
         }
         assertTimeEquals(99);

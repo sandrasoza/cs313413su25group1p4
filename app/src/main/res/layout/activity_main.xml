@@ -18,45 +18,15 @@
             android:textSize="40sp" />
     </RelativeLayout>
 
-    <!--
-         TODO Why can't I define textSize and textStyle
-    	 in the timer container and have it inherited
-    	 by the TextViews?
-    -->
-
-    <RelativeLayout
+    <TextView
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/state"
-        android:layout_centerHorizontal="true" >
-
-        <TextView
-            android:id="@+id/minutes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/minutes"
-            android:textSize="80sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/colon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/minutes"
-            android:text="@string/colon"
-            android:textSize="80sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/seconds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/colon"
-            android:text="@string/seconds"
-            android:textSize="80sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+        android:layout_centerHorizontal="true"
+        android:text="00"
+        android:textSize="80sp"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:id="@+id/buttons"
@@ -71,14 +41,6 @@
             android:layout_height="wrap_content"
             android:onClick="onStartStop"
             android:text="@string/startStop" />
-
-        <Button
-            android:id="@+id/resetLap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/startStop"
-            android:onClick="onLapReset"
-            android:text="@string/resetLap" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -86,4 +86,5 @@ public class DefaultTimerStateMachine implements TimerStateMachine {
 
     // guards
     @Override public boolean isTimeZero() { return timeModel.isZero(); }
+    @Override public boolean isTimeMax()  { return timeModel.isMax(); }
 }
