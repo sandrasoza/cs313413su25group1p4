@@ -88,6 +88,38 @@ public abstract class AbstractTimerStateMachineTest {
         assertTimeEquals(3);
         assertEquals(R.string.SETTING, dependency.getState());
     }
+    @Test
+    public void testSettingMaxStartsImmediately() {
+        for (int i = 0; i < 99; i++) {
+            model.onStartStop();
+        }
+        assertEquals(R.string.RUNNING, dependency.getState());
+        assertTrue(dependency.isStarted());
+        assertTimeEquals(99);
+    }
+    @Test
+    public void testTimeNeverExceeds99() {
+        for (int i = 0; i < 120; i++) {
+            model.onStartStop();
+        }
+        assertTimeEquals(99);
+    }
+    @Test
+    public void testSingleTickDecrementsByOne() {
+        model.onStartStop();
+        model.onStartStop();
+        model.onStartStop();
+
+        model.onTimeout();
+
+        assertTimeEquals(3);
+
+        model.onTick();
+        assertTimeEquals(2);
+
+        model.onTick();
+        assertTimeEquals(1);
+    }
 
     /**
      * Verifies that the inactivity timeout moves from SettingState to
@@ -205,9 +237,17 @@ class UnifiedMockDependency implements TimeModel, ClockModel, StopwatchModelList
         this.stateId = stateId;
     }
 
+    private TickListener tickListener;
+
     @Override
-    public void setTickListener(TickListener listener) {
-        throw new UnsupportedOperationException();
+    public void setTickListener(final TickListener listener) {
+        tickListener = listener;
+    }
+
+    public void fireTick() {
+        if (tickListener != null) {
+            tickListener.onTick();
+        }
     }
 
     @Override

@@ -20,15 +20,25 @@ interface StopwatchSMStateView {
     void actionReset();
     void actionInc();
     void actionDec();
-    void actionStart();        // starts the 1-second tick clock
-    void actionStop();         // stops the 1-second tick clock
+    /**
+     * Starts the one-second countdown clock.
+     */
+    void actionStart();
+    /**
+     * Stops the one-second countdown clock.
+     */
+    void actionStop();
     void actionStartTimeout(); // (re)starts the 3-second inactivity timeout
     void actionStopTimeout();  // cancels the 3-second inactivity timeout
     void actionAlarmOn();      // TODO sound/vibration mechanism
     void actionAlarmOff();     // TODO sound/vibration mechanism
     void actionUpdateView();
 
-    // guards
+    /**
+     * Returns true if the remaining countdown time is zero.
+     *
+     * @return true when the timer has reached zero
+     */
     boolean isTimeZero();
 
     // state-dependent UI updates

@@ -15,7 +15,7 @@ import edu.luc.etl.cs313.android.simplestopwatch.model.ConcreteTimerModelFacade;
 import edu.luc.etl.cs313.android.simplestopwatch.model.TimerModelFacade;
 
 /**
- * A thin adapter component for the stopwatch.
+ * A thin adapter component for the timer.
  *
  * @author laufer
  */
@@ -37,7 +37,7 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
         super.onCreate(savedInstanceState);
         // inject dependency on view so this adapter receives UI events
         setContentView(R.layout.activity_main);
-        // inject dependency on model into this so model receives UI events
+        // // inject dependency on the timer model so it receives UI events
         this.setModel(new ConcreteTimerModelFacade(this));
         // inject dependency on this into model to register for UI updates
         model.setModelListener(this);

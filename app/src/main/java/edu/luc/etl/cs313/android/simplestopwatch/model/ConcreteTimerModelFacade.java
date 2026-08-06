@@ -61,6 +61,9 @@ public class ConcreteTimerModelFacade implements TimerModelFacade {
         this.clockModel.setTickListener(stateMachine);
     }
 
+    /**
+     * Starts the timer model in its initial stopped state.
+     */
     @Override
     public void start() {
         stateMachine.actionInit();
@@ -73,6 +76,9 @@ public class ConcreteTimerModelFacade implements TimerModelFacade {
         stateMachine.setModelListener(new BeeperDrivingListener(listener, beeperService));
     }
 
+    /**
+     * Forwards the Start/Stop button event to the timer state machine.
+     */
     @Override
     public void onStartStop() {
         stateMachine.onStartStop();
@@ -88,6 +94,9 @@ public class ConcreteTimerModelFacade implements TimerModelFacade {
         clockModel.start();
     }
 
+    /**
+     * Stops the clock and ensures any alarm sound is also stopped.
+     */
     @Override
     public void stopTicks() {
         clockModel.stop();
